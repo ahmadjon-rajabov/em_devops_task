@@ -21,7 +21,8 @@ docker-compose up -d --build
 3. Проверте результат:
 ```bash
 docker ps -a
-"Увидите  em-backend, em-nginx и их статусы"
+"Увидите  em-backend, em-nginx и их статусы."
+"Если статусы 'unhealthy' траблшутинг 'docker log [название/ID_контейнера]'"
 
 curl http://localhost
 Hello from Effective Mobile!!!
