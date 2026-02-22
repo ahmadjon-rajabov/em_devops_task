@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: em-backend
+    container_name: em_backend
+    expose:
+      - "8080"
+    networks:
+      - em_networks
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  nginx:
+    image: nginx:alpine
+    container_name: em_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # поставил read-only, что бы докер не менял конфиг, безопасность best practice
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - em_networks
+
+networks:
+  em_networks:
+    name: em_networks
+    driver: bridge
